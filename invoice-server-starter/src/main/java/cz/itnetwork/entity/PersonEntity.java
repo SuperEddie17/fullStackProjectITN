@@ -77,10 +77,10 @@ public class PersonEntity {
 
     private boolean hidden = false;
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "buyer")
     private List<InvoiceEntity> purchases;
 
-    @OneToMany(mappedBy = "buyer")
+    @OneToMany(mappedBy = "seller")
     private List<InvoiceEntity> sales;
 
 }

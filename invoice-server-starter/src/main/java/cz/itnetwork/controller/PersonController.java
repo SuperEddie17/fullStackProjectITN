@@ -63,12 +63,14 @@ public class PersonController {
 
     @GetMapping("/identification/{identificationNumber}/purchases")
     public List<InvoiceDTO> getPurchasesByIdentificationNumber(@PathVariable String identificationNumber){
-        return personService.invoiceBySeller(identificationNumber);
+        return personService.invoiceByBuyer(identificationNumber);
     }
 
     @GetMapping("/identification/{identificationNumber}/sales")
     public List<InvoiceDTO> getSalesByIdentificationNumber(@PathVariable String identificationNumber){
-        return personService.invoiceByBuyer(identificationNumber);
+        return personService.invoiceBySeller(identificationNumber);
     }
+
+
 }
 

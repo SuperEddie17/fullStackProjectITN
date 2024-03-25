@@ -25,6 +25,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private PersonService personService;
+
 
 
 
@@ -53,6 +56,35 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         return invoiceMapper.toDTO(invoiceEntity);
     }
+
+
+    public InvoiceDTO removeInvoice(long invoiceId) {
+        InvoiceEntity invoice = fetchInvoiceById(invoiceId);//ziskani faktury z databaze
+        InvoiceDTO model = invoiceMapper.toDTO(invoice);
+
+        invoiceRepository.delete(invoice); //smazani faktury z databaze
+        return model;
+
+    }
+
+
+    public InvoiceDTO editInvoice(long invoiceId, InvoiceDTO invoiceDTO) {
+        invoiceDTO.setId(invoiceId);
+        InvoiceEntity entity = fetchInvoiceById(invoiceId);
+
+        entity.setBuyer(personService.fetchPersonById(invoiceDTO.getBuyer().getId()));
+        entity.setSeller(personService.fetchPersonById(invoiceDTO.getSeller().getId()));
+
+        invoiceMapper.updateInvoiceEntity(invoiceDTO, entity);
+
+        InvoiceEntity saved = invoiceRepository.save(entity);
+
+        return invoiceMapper.toDTO(saved);
+
+
+
+    }
+
     private InvoiceEntity fetchInvoiceById(long id){
         return invoiceRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Invoice with id " + id + " wasn't found in the database."));
