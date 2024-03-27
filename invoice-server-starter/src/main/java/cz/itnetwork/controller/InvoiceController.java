@@ -16,6 +16,9 @@ public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
+
+
+
     @PostMapping("/invoices")
     public  InvoiceDTO addInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         return  invoiceService.addInvoice(invoiceDTO);
@@ -45,6 +48,8 @@ public class InvoiceController {
     public InvoiceDTO editInvoice (@PathVariable long invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
         return invoiceService.editInvoice(invoiceId,invoiceDTO);
     }
+
+
 
 
 

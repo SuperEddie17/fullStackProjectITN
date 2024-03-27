@@ -85,6 +85,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     }
 
+
+
+
     private InvoiceEntity fetchInvoiceById(long id){
         return invoiceRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Invoice with id " + id + " wasn't found in the database."));

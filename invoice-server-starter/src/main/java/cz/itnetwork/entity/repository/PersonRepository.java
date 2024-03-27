@@ -21,8 +21,10 @@
  */
 package cz.itnetwork.entity.repository;
 
+import cz.itnetwork.dto.PersonStatisticsDTO;
 import cz.itnetwork.entity.PersonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -33,5 +35,6 @@ public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
 
     List<PersonEntity> findByIdentificationNumber(String identificationNumber);
 
-
+    @Query(value= "SELECT NEW cz.itnetwork.dto.PersonStatisticsDTO(person.id, person.name, ROUND(COALESCE(SUM(i.price), 0.0), 2) ) FROM person person LEFT JOIN invoice i ON person.id = seller.id GROUP BY person.id, person.name")
+    List<PersonStatisticsDTO> getPersonStatistics();
 }
