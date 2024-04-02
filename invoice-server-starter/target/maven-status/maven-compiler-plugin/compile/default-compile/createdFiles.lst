@@ -2,12 +2,14 @@ cz\itnetwork\dto\mapper\PersonMapperImpl.class
 cz\itnetwork\service\StatisticsServiceImpl.class
 cz\itnetwork\controller\advice\EntityNotFoundExceptionAdvice.class
 cz\itnetwork\entity\repository\PersonRepository.class
+cz\itnetwork\dto\PersonStatisticsDTO.class
 cz\itnetwork\service\InvoiceService.class
 cz\itnetwork\service\PersonServiceImpl.class
 cz\itnetwork\service\StatisticsService.class
 cz\itnetwork\configuration\WebConfiguration.class
 cz\itnetwork\controller\InvoiceController.class
 cz\itnetwork\controller\PersonController.class
+cz\itnetwork\dto\InvoiceStatisticsDTO.class
 cz\itnetwork\entity\repository\InvoiceRepository.class
 cz\itnetwork\entity\InvoiceEntity_.class
 cz\itnetwork\service\PersonService.class
@@ -16,7 +18,6 @@ cz\itnetwork\dto\mapper\PersonMapper.class
 cz\itnetwork\dto\mapper\InvoiceMapper.class
 cz\itnetwork\entity\PersonEntity.class
 cz\itnetwork\entity\PersonEntity_.class
-cz\itnetwork\dto\StatisticsDTO.class
 cz\itnetwork\constant\Countries.class
 cz\itnetwork\dto\InvoiceDTO.class
 cz\itnetwork\dto\mapper\InvoiceMapperImpl.class

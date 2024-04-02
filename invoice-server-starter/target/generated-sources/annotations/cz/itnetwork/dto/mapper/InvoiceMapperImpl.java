@@ -28,6 +28,7 @@ public class InvoiceMapperImpl implements InvoiceMapper {
         invoiceEntity.setDueDate( source.getDueDate() );
         invoiceEntity.setPrice( source.getPrice() );
         invoiceEntity.setVat( source.getVat() );
+        invoiceEntity.setProduct( source.getProduct() );
         invoiceEntity.setNote( source.getNote() );
         invoiceEntity.setBuyer( personDTOToPersonEntity( source.getBuyer() ) );
         invoiceEntity.setSeller( personDTOToPersonEntity( source.getSeller() ) );
@@ -47,6 +48,7 @@ public class InvoiceMapperImpl implements InvoiceMapper {
         invoiceDTO.setInvoiceNumber( source.getInvoiceNumber() );
         invoiceDTO.setIssued( source.getIssued() );
         invoiceDTO.setDueDate( source.getDueDate() );
+        invoiceDTO.setProduct( source.getProduct() );
         invoiceDTO.setPrice( source.getPrice() );
         invoiceDTO.setVat( source.getVat() );
         invoiceDTO.setNote( source.getNote() );
@@ -68,6 +70,7 @@ public class InvoiceMapperImpl implements InvoiceMapper {
         target.setDueDate( source.getDueDate() );
         target.setPrice( source.getPrice() );
         target.setVat( source.getVat() );
+        target.setProduct( source.getProduct() );
         target.setNote( source.getNote() );
     }
 

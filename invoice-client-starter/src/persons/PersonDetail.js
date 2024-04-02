@@ -22,6 +22,7 @@
 
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {apiGet} from "../utils/api";
 import Country from "./Country";
@@ -29,9 +30,14 @@ import Country from "./Country";
 const PersonDetail = () => {
     const {id} = useParams();
     const [person, setPerson] = useState({});
+    const [purchases, setPurchases] = useState([]);
+    const [sales, setSales] = useState([]);
 
     useEffect(() => {
         apiGet("/api/persons/" + id).then((data) => setPerson(data));
+        apiGet("api/identification/"+id +"/purchases").then((data) => setPurchases(data));
+        apiGet("api/identification/"+id +"/sales").then((data) => setSales(data));
+
     }, [id]);
     const country = Country.CZECHIA === person.country ? "Česká republika" : "Slovensko";
 
@@ -73,6 +79,14 @@ const PersonDetail = () => {
                     {person.note}
                 </p>
             </div>
+            <button className = "btn btn-primary">
+                                <Link
+                                    to={"/persons"}
+                                    className = "btn btn-primary"
+                                >
+                                    zpet
+                                </Link>
+                                </button>
         </>
     );
 };

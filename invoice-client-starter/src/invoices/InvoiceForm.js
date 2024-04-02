@@ -14,8 +14,8 @@ const InvoiceForm = () => {
     const {id} = useParams();
     const [invoice, setInvoice] = useState({
         invoiceNumber: "",
-        seller: "",
-        buyer: "",
+        seller: {_id:""} ,
+        buyer: {_id:""},
         issued: "",
         dueDate: "",
         product: "",
@@ -23,14 +23,25 @@ const InvoiceForm = () => {
         vat: "",
         note: "",        
     });
+    
+    const [errorState, setError] = useState(null);
+    const [sellerState, setSeller] = useState([]);
+    const [buyerState, setBuyer] = useState([]);
+
     const [sentState, setSent] = useState(false);
     const [successState, setSuccess] = useState(false);
-    const [errorState, setError] = useState(null);
+    const [personList, setPersonList] = useState([]);
 
     useEffect(() => {
         if (id) {
-            apiGet("/api/invoices/" + id).then((data) => setInvoice(data));
-        }
+            apiGet("/api/invoices/" + id).then((data) => {
+                 setInvoice(data),
+                setSeller(data.seller._id);
+                setBuyer(data.buyer_id);
+            }
+                 );
+        };
+        apiGet("/api/persons").then((data) => setPersonList(data));
     }, [id]);
 
     const handleSubmit = (e) => {
@@ -82,32 +93,34 @@ const InvoiceForm = () => {
                     }}
                 />
 
-                <InputField
-                    required={true}
-                    type="number"
-                    name="seller"
-                    min="1"
-                    label="Prodavajici"
-                    prompt="Zadejte prodavajiciho"
-                    value={invoice.seller._id || ""}
+              
+                <InputSelect 
+                    required= {true}                    
+                    multiple= {false}
+                    name= "seller"
+                    label="prodavajici"
+                    items={personList} 
+                    value={invoice.seller._id}                   
                     handleChange={(e) => {
                         setInvoice({...invoice, seller: {_id: e.target.value}});
                     }}
+
                 />
 
-                <InputField
-                    required={true}
-                    type="number"
-                    name="buyer"
-                    min="1"
+            
+
+                <InputSelect
+                    required= {true}                    
+                    multiple= {false}
+                    name= "buyer"
                     label="Kupujici"
-                    prompt="Zadejte kupujiciho"
-                    value={invoice.buyer._id || ""}
+                    items={personList} 
+                    value={invoice.buyer._id}                   
                     handleChange={(e) => {
                         setInvoice({...invoice, buyer: {_id: e.target.value}});
                     }}
-                />
 
+                />
                 <InputField
                     required={true}
                     type="date"

@@ -2,7 +2,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import dateStringFormatter from "../utils/dateStringFormatter";
-import price from "../utils/price";
+import { currencyFormatter } from "../utils/currencyFormatter";
 
 const InvoiceTable = ({label, items, deleteInvoice}) => {
     return (

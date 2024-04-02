@@ -21,6 +21,8 @@ public class InvoiceDTO {
 
     private Date dueDate;
 
+    private String product;
+
     private long price;
 
     private int vat;

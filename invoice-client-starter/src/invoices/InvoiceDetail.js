@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import dateStringFormatter from "../utils/dateStringFormatter";
+import {Link} from "react-router-dom";
 
 import {apiGet} from "../utils/api";
 
@@ -16,13 +18,34 @@ const InvoiceDetail = () => {
         <div>
             <h1>Detail faktury</h1>
             <hr/>
-            <h3>{invoice.invoiceNumber}</h3>
+            <h3> Cislo faktury: {invoice.invoiceNumber} <br/> </h3>
+            
             <p>
-                {invoice.price}
-
+               <strong>Cena:</strong> <br/>
+                {invoice.price} Kc <br/>
+              <strong> DPH:</strong> <br/>
+               {invoice.vat}% <br/>
+               <strong>Prodavajici:</strong> <br/> {invoice.seller ? invoice.seller.name : 'Neznámý'} <br/>
+               <strong> Nakupujici:</strong> <br/> {invoice.buyer ? invoice.buyer.name : 'Neznámý'} <br/>
+               <strong> Datum vystaveni:</strong> <br/> {dateStringFormatter(invoice.issued)} <br/>
+               <strong> Datum splatnosti:</strong> <br/> {dateStringFormatter(invoice.dueDate)} <br/>
+               <strong> Produkt:</strong> <br/> {invoice.product}<br/>
+               <strong> Poznamka:</strong> <br/> {invoice.note}<br/>
             </p>
-        </div>
-    </>    
+            </div>
+
+        
+        <button className = "btn btn-primary">
+                                <Link
+                                    to={"/invoices"}
+                                    className = "btn btn-primary"
+                                >
+                                    zpet
+                                </Link>
+                                </button>
+
+                                
+        </>    
     ); 
 };
 export default InvoiceDetail;

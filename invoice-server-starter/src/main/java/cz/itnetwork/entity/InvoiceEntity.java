@@ -30,7 +30,11 @@ public class InvoiceEntity {
     @Column(nullable = false)
     private int vat;
 
+    private String product;
+
     private String note;
+
+
 
     @ManyToOne
     private PersonEntity buyer;
