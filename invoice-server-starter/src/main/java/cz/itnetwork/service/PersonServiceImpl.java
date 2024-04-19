@@ -105,7 +105,6 @@ public class PersonServiceImpl implements PersonService {
                     .flatMap(java.util.Collection::stream)
                     .map(invoiceMapper::toDTO)
                     .collect(Collectors.toList());
-
     }
 
     @Override

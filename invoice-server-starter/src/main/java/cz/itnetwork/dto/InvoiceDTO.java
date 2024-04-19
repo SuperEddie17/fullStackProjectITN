@@ -1,5 +1,6 @@
 package cz.itnetwork.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +17,9 @@ public class InvoiceDTO {
     private long id;
 
     private int invoiceNumber;
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date issued;
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 
     private String product;

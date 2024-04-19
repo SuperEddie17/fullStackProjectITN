@@ -9,6 +9,8 @@ cz\itnetwork\service\StatisticsService.class
 cz\itnetwork\configuration\WebConfiguration.class
 cz\itnetwork\controller\InvoiceController.class
 cz\itnetwork\controller\PersonController.class
+cz\itnetwork\dto\InvoiceFilter.class
+cz\itnetwork\entity\repository\specification\InvoiceSpecification.class
 cz\itnetwork\dto\InvoiceStatisticsDTO.class
 cz\itnetwork\entity\repository\InvoiceRepository.class
 cz\itnetwork\entity\InvoiceEntity_.class

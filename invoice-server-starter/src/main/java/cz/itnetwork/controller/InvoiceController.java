@@ -2,9 +2,10 @@ package cz.itnetwork.controller;
 
 
 import cz.itnetwork.dto.InvoiceDTO;
+import cz.itnetwork.dto.InvoiceFilter;
 import cz.itnetwork.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +26,8 @@ public class InvoiceController {
     }
 
     @GetMapping("/invoices")
-    public List<InvoiceDTO> getAllInvoices(){
-        return invoiceService.getAllInvoices();
+    public List<InvoiceDTO> getAllInvoices(InvoiceFilter invoiceFilter){
+        return invoiceService.getAllInvoices(invoiceFilter);
     }
 
     @GetMapping("/invoices/{invoiceId}")
@@ -35,13 +36,11 @@ public class InvoiceController {
     }
 
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/invoices/{invoiceId}")
-    public ResponseEntity<Void> deleteInvoice(@PathVariable long invoiceId) {
-        InvoiceDTO deletedInvoice = invoiceService.removeInvoice(invoiceId);
-        if (deletedInvoice == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.noContent().build();
+    public void deleteInvoice(@PathVariable long invoiceId) {
+         invoiceService.removeInvoice(invoiceId);
+
     }
 
     @PutMapping({"/invoices/{invoiceId}", "/invoices/{invoiceId}"} )

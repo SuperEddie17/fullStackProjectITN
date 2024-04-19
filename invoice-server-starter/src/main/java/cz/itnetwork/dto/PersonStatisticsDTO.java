@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonStatisticsDTO {
 
-    private long personId;
+    private Long personId;
     private String personName;
-    private long revenue;
+    private Long revenue;
 }

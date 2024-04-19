@@ -20,9 +20,9 @@
  * Více informací na http://www.itnetwork.cz/licence
  */
 
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-import {apiDelete, apiGet} from "../utils/api";
+import { apiDelete, apiGet } from "../utils/api";
 
 import PersonTable from "./PersonTable";
 

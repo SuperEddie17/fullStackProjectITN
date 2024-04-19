@@ -2,11 +2,14 @@ package cz.itnetwork.service;
 
 
 import cz.itnetwork.dto.InvoiceDTO;
+import cz.itnetwork.dto.InvoiceFilter;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
+import cz.itnetwork.entity.repository.specification.InvoiceSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -28,23 +31,21 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     private PersonService personService;
 
-
-
-
-
     public InvoiceDTO addInvoice(InvoiceDTO invoiceDTO) {
         InvoiceEntity entity = invoiceMapper.toEntity(invoiceDTO);
-        entity = invoiceRepository.saveAndFlush(entity);
+
         entity.setBuyer(personRepository.findById(invoiceDTO.getBuyer().getId()).orElseThrow());
         entity.setSeller(personRepository.findById(invoiceDTO.getSeller().getId()).orElseThrow());
 
+        entity = invoiceRepository.saveAndFlush(entity);
 
         return invoiceMapper.toDTO(entity);
     }
 
-    @Override
-    public List<InvoiceDTO> getAllInvoices(){
-        return invoiceRepository.findAll()
+
+    public List<InvoiceDTO> getAllInvoices(InvoiceFilter invoiceFilter){
+        InvoiceSpecification invoiceSpecification = new InvoiceSpecification(invoiceFilter);
+        return invoiceRepository.findAll(invoiceSpecification, PageRequest.of(0, invoiceFilter.getLimit()))
                 .stream()
                 .map(invoiceMapper::toDTO)
                 .collect(Collectors.toList());
@@ -57,32 +58,20 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceMapper.toDTO(invoiceEntity);
     }
 
-
-    public InvoiceDTO removeInvoice(long invoiceId) {
+    public  void removeInvoice(long invoiceId) {
         InvoiceEntity invoice = fetchInvoiceById(invoiceId);//ziskani faktury z databaze
-        InvoiceDTO model = invoiceMapper.toDTO(invoice);
-
         invoiceRepository.delete(invoice); //smazani faktury z databaze
-        return model;
-
     }
 
-
     public InvoiceDTO editInvoice(long invoiceId, InvoiceDTO invoiceDTO) {
-        invoiceDTO.setId(invoiceId);
         InvoiceEntity entity = fetchInvoiceById(invoiceId);
-
-        entity.setBuyer(personService.fetchPersonById(invoiceDTO.getBuyer().getId()));
-        entity.setSeller(personService.fetchPersonById(invoiceDTO.getSeller().getId()));
+        invoiceDTO.setId(invoiceId);
 
         invoiceMapper.updateInvoiceEntity(invoiceDTO, entity);
 
         InvoiceEntity saved = invoiceRepository.save(entity);
 
         return invoiceMapper.toDTO(saved);
-
-
-
     }
 
 

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
     @Autowired
@@ -17,6 +16,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Autowired
     PersonRepository personRepository;
+
     @Override
     public InvoiceStatisticsDTO getInvoicesStatistics() {
         return invoiceRepository.getInvoicesStatistics();
@@ -26,7 +26,5 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<PersonStatisticsDTO> getPersonStatistics() {
         return personRepository.getPersonStatistics();
     }
-
-
 }
 
