@@ -1,6 +1,7 @@
 import dateStringFormatter from "../utils/dateStringFormatter";
 const SalesAndPurchasesTable = ({ data, title }) => {
   const columnTitle = title === "Vydane" ? "Odberatel" : "Dodavatel";
+  const buyerOrSeller = columnTitle === "Odberatel" ? "buyer" : "seller";
   return (
     <div>
       <h3>{title} faktury</h3>
@@ -20,7 +21,7 @@ const SalesAndPurchasesTable = ({ data, title }) => {
               {data.map(item => (
                 <tr key={item.invoiceNumber}>
                   <td>{item.invoiceNumber}</td>
-                  <td>{item.buyer.name}</td>
+                  <td>{item[buyerOrSeller].name}</td>
                   <td>{item.price}</td>
                   <td>{dateStringFormatter(item.issued)}</td>
                   <td>{dateStringFormatter(item.dueDate)}</td>

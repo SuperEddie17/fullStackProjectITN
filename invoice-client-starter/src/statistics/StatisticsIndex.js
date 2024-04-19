@@ -1,20 +1,24 @@
-
-
+import React, { useEffect, useState } from "react";
+import { apiGet } from "../utils/api";
+import StatisticsTable from "./StatisticsTable";
 const StatisticsIndex = () => {
     const [statistics, setStatistics] = useState([]);
     
 
     useEffect(() => {
         
-           
-        async function fetchStatistics() {
-            const StatisticData = await apiGet("/api/persons/statistics");
-            setStatistics(StatisticData);           
-                       
-        };
+        apiGet("/api/persons/statistics").then((data) => setStatistics(data));
+    }, []);
 
-        
-        fetchStatistics();
-    }, [id]);
+    console.log ("statistiky",statistics);
+
+    return (
+        <><h1>Statistiky spolecnosti</h1>
+        <div>
+            <StatisticsTable data={statistics}/>
+        </div>
+        </>
+    )
 
 }
+export default StatisticsIndex;
