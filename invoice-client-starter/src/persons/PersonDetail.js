@@ -22,8 +22,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-
+import { currencyFormatter } from "../utils/currencyFormatter";
 import { apiGet } from "../utils/api";
 import Country from "./Country";
 import SalesAndPurchasesTable from "../invoices/SalesAndPurchasesTable";
@@ -36,7 +35,7 @@ const PersonDetail = () => {
     const [sales, setSales] = useState({});
     const [statistics, setStatistics] = useState([]);
 
-
+    //get pozadavky pro persons a statistics 
     useEffect(() => {
         async function fetchPersons() {
             const personData = await apiGet("/api/persons/" + id);
@@ -45,16 +44,14 @@ const PersonDetail = () => {
         async function fetchStatistics() {
             const StatisticData = await apiGet("/api/persons/statistics");
             setStatistics(StatisticData);
-            console.log("Statistics:", StatisticData);
             const personStatistics = StatisticData.find((item) => item.personId === parseInt(id));
             setStatistics(personStatistics);
-            console.log("Statistics2:", personStatistics);
         };
-
         fetchPersons();
         fetchStatistics();
     }, [id]);
 
+    //get pozadavky na ziskani sales a purchases
     useEffect(() => {
         async function fetchSales() {
 
@@ -72,19 +69,14 @@ const PersonDetail = () => {
             console.log("PurchasesData:", purchasesData);
 
         };
-
         fetchSales();
         fetchPurchases();
     }, [person]);
+
+    //pokud se nenactou data, vypise se nacitaci zprava
     if (!sales) {
-        return <p>Nacitam</p>
+        return <p>Načítám</p>
     };
-
-    console.log("cislo fa", purchases.invoiceNumber);
-    console.log("vsechen sales:", sales);
-    console.log("vsechen purch:", purchases);
-
-
     const country = Country.CZECHIA === person.country ? "Česká republika" : "Slovensko";
 
     return (
@@ -130,18 +122,18 @@ const PersonDetail = () => {
                         </p>
 
                         <p>
-                            <strong>Trzba:</strong>
+                            <strong>Tržba:</strong>
                             <br />
-                            {statistics.revenue} Kc
+                            {currencyFormatter.format(statistics.revenue)}
                         </p>
                     </div>
 
 
                     <div className="col-md-6 d-flex align-items-left justify-content-center flex-column">
-                        <SalesAndPurchasesTable data={sales} title="Vydane" />
+                        <SalesAndPurchasesTable data={sales} title="Vydané" />
 
 
-                        <SalesAndPurchasesTable data={purchases} title="Prijate" />
+                        <SalesAndPurchasesTable data={purchases} title="Přijaté" />
                     </div>
                 </div>
             </div>

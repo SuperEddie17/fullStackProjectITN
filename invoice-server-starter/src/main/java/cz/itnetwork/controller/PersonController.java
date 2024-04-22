@@ -37,37 +37,44 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+    //přidaní osoby
     @PostMapping("/persons")
     public PersonDTO addPerson(@RequestBody PersonDTO personDTO) {
         return personService.addPerson(personDTO);
     }
 
+    //vyppsání všech osob
     @GetMapping("/persons")
     public List<PersonDTO> getPersons() {
         return personService.getAll();
     }
 
+    //smazání osoby, po smazání vypsaní 204 no content statusu
     @DeleteMapping("/persons/{personId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePerson(@PathVariable long personId) {
         personService.removePerson(personId);
     }
 
+    //zobrazení urcřité osoby dle jejího IČ
     @GetMapping("/persons/{personId}")
     public PersonDTO getPerson(@PathVariable long personId) {
         return personService.getPersonById(personId);
     }
 
+    //upravení osoby dle jejího IČ
     @PutMapping("/persons/{personId}")
     public PersonDTO editPerson(@PathVariable long personId,@RequestBody PersonDTO personDTO) {
         return personService.editPerson(personId,personDTO);
     }
 
+    //zobrazení přijatých faktur pro určitou osobu dle jejího IČ
     @GetMapping("/identification/{identificationNumber}/purchases")
     public List<InvoiceDTO> getPurchasesByIdentificationNumber(@PathVariable String identificationNumber){
         return personService.invoiceByBuyer(identificationNumber);
     }
 
+    //zobrazení vystavených faktur pro určitou osobu dle jejího IČ
     @GetMapping("/identification/{identificationNumber}/sales")
     public List<InvoiceDTO> getSalesByIdentificationNumber(@PathVariable String identificationNumber){
         return personService.invoiceBySeller(identificationNumber);

@@ -30,6 +30,5 @@ import org.mapstruct.Mapper;
 public interface PersonMapper {
 
     PersonEntity toEntity(PersonDTO source);
-
     PersonDTO toDTO(PersonEntity source);
 }

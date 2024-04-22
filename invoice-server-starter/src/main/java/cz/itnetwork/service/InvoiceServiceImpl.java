@@ -31,52 +31,76 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     private PersonService personService;
 
+    /**
+     * funkce pro vytvoření nové faktury
+     * @param invoiceDTO objekt reprezntující fakturu, která má být vytvořena
+     * @return nově vytvořená faktura
+     */
     public InvoiceDTO addInvoice(InvoiceDTO invoiceDTO) {
         InvoiceEntity entity = invoiceMapper.toEntity(invoiceDTO);
-
+        //Nastavení kupujícího a prodávajícího na základě ID v InvoiceDTO
         entity.setBuyer(personRepository.findById(invoiceDTO.getBuyer().getId()).orElseThrow());
         entity.setSeller(personRepository.findById(invoiceDTO.getSeller().getId()).orElseThrow());
-
         entity = invoiceRepository.saveAndFlush(entity);
 
         return invoiceMapper.toDTO(entity);
     }
 
-
+    /**
+     * vrací seznam všech faktur s aplikovaným filtrem
+     * @param invoiceFilter objekt obsahující filtry pro faktury
+     * @return seznam faktur odpovídající zadaným filtrům
+     */
     public List<InvoiceDTO> getAllInvoices(InvoiceFilter invoiceFilter){
         InvoiceSpecification invoiceSpecification = new InvoiceSpecification(invoiceFilter);
+        //Vyhledávání všech faktur podle specifikace a omezení na požadovaný počet výsledků
         return invoiceRepository.findAll(invoiceSpecification, PageRequest.of(0, invoiceFilter.getLimit()))
                 .stream()
                 .map(invoiceMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * funkce pro nalezení faktury dle jejího ID
+     * @param invoiceId ID hledané faktury
+     * @return vrátí fakturu podle zadaného ID nebo null, pokud faktura neexistuje
+     */
     @Override
     public InvoiceDTO getInvoiceById(long invoiceId) {
         InvoiceEntity invoiceEntity = fetchInvoiceById(invoiceId);
-
         return invoiceMapper.toDTO(invoiceEntity);
     }
 
+    /**
+     * funkce pro smazání faktury
+     * @param invoiceId ID hledané faktury
+     */
     public  void removeInvoice(long invoiceId) {
         InvoiceEntity invoice = fetchInvoiceById(invoiceId);//ziskani faktury z databaze
         invoiceRepository.delete(invoice); //smazani faktury z databaze
     }
 
+    /**
+     * funkce pro editování faktury
+     * @param invoiceId ID hledané faktury
+     * @param invoiceDTO upravovaná faktura
+     * @return vrátí upravenou fakturu
+     */
     public InvoiceDTO editInvoice(long invoiceId, InvoiceDTO invoiceDTO) {
+        //nalezení faktury dle ID
         InvoiceEntity entity = fetchInvoiceById(invoiceId);
+        //nastavení ID faktury
         invoiceDTO.setId(invoiceId);
-
         invoiceMapper.updateInvoiceEntity(invoiceDTO, entity);
-
         InvoiceEntity saved = invoiceRepository.save(entity);
-
         return invoiceMapper.toDTO(saved);
     }
 
-
-
-
+    /**
+     * funkce pro nalezení faktury dle ID
+     * @param id ID faktury
+     * @return vrátí celý objekt hledané faktury, pokud ne, vypíše hlášku o nenalezení
+     */
     private InvoiceEntity fetchInvoiceById(long id){
         return invoiceRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Invoice with id " + id + " wasn't found in the database."));

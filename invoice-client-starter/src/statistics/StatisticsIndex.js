@@ -3,20 +3,18 @@ import { apiGet } from "../utils/api";
 import StatisticsTable from "./StatisticsTable";
 const StatisticsIndex = () => {
     const [statistics, setStatistics] = useState([]);
-    
 
+    //get pozadavek na statistics
     useEffect(() => {
-        
+
         apiGet("/api/persons/statistics").then((data) => setStatistics(data));
     }, []);
 
-    console.log ("statistiky",statistics);
-
     return (
-        <><h1>Statistiky spolecnosti</h1>
-        <div>
-            <StatisticsTable data={statistics}/>
-        </div>
+        <><h1>Statistiky osob</h1>
+            <div>
+                <StatisticsTable data={statistics} />
+            </div>
         </>
     )
 

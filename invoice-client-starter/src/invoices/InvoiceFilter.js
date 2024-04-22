@@ -5,10 +5,11 @@ import InputSelect from '../components/InputSelect';
 const InvoiceFilter = (props) => {
     const { filter } = props;
 
+    //funkce pri zmene hodnoty v inputu
     const handleChange = (e) => {
         props.handleChange(e);
     };
-
+    //funkce pri odeslani formulare
     const handleSubmit = (e) => {
         props.handleSubmit(e);
     };

@@ -22,9 +22,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { apiGet, apiPost, apiPut } from "../utils/api";
-
 import InputField from "../components/InputField";
 import InputCheck from "../components/InputCheck";
 import FlashMessage from "../components/FlashMessage";
@@ -53,12 +51,14 @@ const PersonForm = () => {
     const [successState, setSuccess] = useState(false);
     const [errorState, setError] = useState(null);
 
+    //get pozadavek na persons
     useEffect(() => {
         if (id) {
             apiGet("/api/persons/" + id).then((data) => setPerson(data));
         }
     }, [id]);
 
+    //obsluzna funke pro odeslani formulare, pricemz se vola bud Put pri vytvoreni nove osoby nebo Post pro editaci osoby
     const handleSubmit = (e) => {
         e.preventDefault();
 

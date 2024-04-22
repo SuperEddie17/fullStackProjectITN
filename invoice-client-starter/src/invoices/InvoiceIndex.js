@@ -16,6 +16,7 @@ const InvoiceIndex = () => {
         limit: undefined
     });
 
+    //get pozadavky na server pro Invoices, Statistics a PersonList
     useEffect(() => {
         apiGet("/api/invoices").then((data) => setInvoices(data));
         apiGet("/api/invoices/statistics").then((data) => setStatistics(data));
@@ -23,6 +24,7 @@ const InvoiceIndex = () => {
 
     }, []);
 
+    //funkce pro filtrovani faktur
     const handleChange = (e) => {
 
         if (e.target.value === "false" || e.target.value === "true" || e.target.value === '') {
@@ -43,6 +45,7 @@ const InvoiceIndex = () => {
         setInvoices(data);
     };
 
+    //funkce pro odstraneni faktury
     const deleteInvoice = async (id) => {
         try {
             await apiDelete("/api/invoices/" + id);
@@ -58,8 +61,8 @@ const InvoiceIndex = () => {
             <h1>Seznam faktur</h1>
             {statistics && (
                 <>
-                    <p>Suma za aktualni rok: {statistics.currentYearSum} Kc </p>
-                    <p>Suma celkove: {statistics.allTimeSum} Kc</p>
+                    <p>Suma za aktuální rok: {statistics.currentYearSum} Kc </p>
+                    <p>Suma celkově: {statistics.allTimeSum} Kc</p>
                 </>
             )}
             <InvoiceFilter

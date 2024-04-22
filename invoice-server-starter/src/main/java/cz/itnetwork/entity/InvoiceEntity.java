@@ -34,8 +34,6 @@ public class InvoiceEntity {
 
     private String note;
 
-
-
     @ManyToOne
     private PersonEntity buyer;
 

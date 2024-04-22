@@ -51,7 +51,11 @@ public class PersonServiceImpl implements PersonService {
     private InvoiceMapper invoiceMapper;
 
 
-
+    /**
+     * přidání nové osoby
+     * @param personDTO vytvářená osoba
+     * @return nová osoba
+     */
     public PersonDTO addPerson(PersonDTO personDTO) {
         PersonEntity entity = personMapper.toEntity(personDTO);
         entity = personRepository.save(entity);
@@ -59,18 +63,27 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDTO(entity);
     }
 
+    /**
+     * smazání osoby
+     * @param personId id osoby ke smazání
+     */
     @Override
     public void removePerson(long personId) {
         try {
             PersonEntity person = fetchPersonById(personId);
             person.setHidden(true);
+            //osoba je nastavena jako hidden, není smazána, zůstává v databázi
 
             personRepository.save(person);
         } catch (NotFoundException ignored) {
-            // The contract in the interface states, that no exception is thrown, if the entity is not found.
+
         }
     }
 
+    /**
+     * vypsání všech osob
+     * @return vrátí list všech neskrytých osob
+     */
     @Override
     public List<PersonDTO> getAll() {
         return personRepository.findByHidden(false)
@@ -79,6 +92,11 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * nalezení osoby dle jejího ID
+     * @param personId id hledané osoby
+     * @return vrátí entitu hledané osoby
+     */
     @Override
     public PersonDTO getPersonById(long personId) {
         PersonEntity personEntity = fetchPersonById(personId);
@@ -86,17 +104,28 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDTO(personEntity);
     }
 
+    /**
+     * editace osoby
+     * @param id id editované osoby
+     * @param editedPerson editovaný objekt osoby
+     * @return vytvoří novou osobu s novým ID, původní osobu skryje
+     */
     @Override
     public PersonDTO editPerson(long id, PersonDTO editedPerson) {
 
         PersonEntity person = fetchPersonById(id);
         person.setHidden(true);
-
+        //skrytí původní osoby
         personRepository.save(person);
 
         return addPerson(editedPerson) ;
     }
 
+    /**
+     * vypsání vydaných faktur pro danou osobu
+     * @param identificationNumber IČO dodavatele
+     * @return vrátí seznam vydaných faktur danou osobou
+     */
     @Override
     public List<InvoiceDTO> invoiceBySeller(String identificationNumber) {
             return personRepository.findByIdentificationNumber(identificationNumber)
@@ -107,6 +136,11 @@ public class PersonServiceImpl implements PersonService {
                     .collect(Collectors.toList());
     }
 
+    /**
+     * vypsání přijatých faktur danou osobou
+     * @param identificationNumber IČO odběratele
+     * @return vrátí seznam přijatých faktur danou osobou
+     */
     @Override
     public List<InvoiceDTO> invoiceByBuyer(String identificationNumber) {
         return personRepository.findByIdentificationNumber(identificationNumber)
@@ -126,13 +160,16 @@ public class PersonServiceImpl implements PersonService {
      * @throws org.webjars.NotFoundException In case a person with the passed [id] isn't found
      */
 
+    /**
+     * nalezení osoby dle ID
+     * @param id ID hledané osoby
+     * @return entitu hledané osoby
+     */
     @Override
     public PersonEntity fetchPersonById(long id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Person with id " + id + " wasn't found in the database."));
     }
 
-    // region: Private methods
 
-    // endregion
 }

@@ -29,6 +29,7 @@ import PersonTable from "./PersonTable";
 const PersonIndex = () => {
     const [persons, setPersons] = useState([]);
 
+    //funkce pro smazani osoby, pricemz osoba zustava v databazi, ale je oznacena jako hidden
     const deletePerson = async (id) => {
         try {
             await apiDelete("/api/persons/" + id);
@@ -38,7 +39,7 @@ const PersonIndex = () => {
         }
         setPersons(persons.filter((item) => item._id !== id));
     };
-
+    //get pozdavek na persons
     useEffect(() => {
         apiGet("/api/persons").then((data) => setPersons(data));
     }, []);

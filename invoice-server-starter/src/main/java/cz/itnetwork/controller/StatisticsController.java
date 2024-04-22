@@ -16,12 +16,13 @@ public class StatisticsController {
     @Autowired
     private StatisticsService statisticsService;
 
-
+    //zobrazení obecných statistik pro všechny faktury
     @GetMapping("/invoices/statistics")
     public InvoiceStatisticsDTO getInvoicesStatistics() {
         return statisticsService.getInvoicesStatistics();
     }
 
+    //zobrazení statitik pro jednotlivé osoby
     @GetMapping("/persons/statistics")
     public List<PersonStatisticsDTO> getPersonsStatistics() {return statisticsService.getPersonStatistics();}
 }

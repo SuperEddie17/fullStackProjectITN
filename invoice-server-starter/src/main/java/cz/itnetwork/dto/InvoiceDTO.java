@@ -17,8 +17,10 @@ public class InvoiceDTO {
     private long id;
 
     private int invoiceNumber;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date issued;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 

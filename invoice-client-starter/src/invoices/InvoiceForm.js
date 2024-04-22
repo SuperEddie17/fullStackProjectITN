@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { apiGet, apiPost, apiPut } from "../utils/api";
-
 import InputField from "../components/InputField";
 import FlashMessage from "../components/FlashMessage";
 import InputSelect from "../components/InputSelect";
-
 
 const InvoiceForm = () => {
     const navigate = useNavigate();
@@ -24,30 +21,23 @@ const InvoiceForm = () => {
     });
 
     const [errorState, setError] = useState(null);
-    /*const [sellerState, setSeller] = useState([]);
-    const [buyerState, setBuyer] = useState([]); */
-
     const [sentState, setSent] = useState(false);
     const [successState, setSuccess] = useState(false);
     const [personList, setPersonList] = useState([]);
 
+    //get pozadavky pro invoices a persons
     useEffect(() => {
         if (id) {
             apiGet("/api/invoices/" + id).then((data) => {
                 setInvoice(data);
-               /* setSeller(data.seller._id);
-                setBuyer(data.buyer_id); */
-            }
-            );
+            });
         };
         apiGet("/api/persons").then((data) => setPersonList(data));
     }, [id]);
 
+    //funkce pro odeslani faktury na server
     const handleSubmit = (e) => {
         e.preventDefault();
-
-
-
         (id ? apiPut("/api/invoices/" + id, invoice) : apiPost("/api/invoices", invoice))
             .then((data) => {
                 setSent(true);
@@ -67,7 +57,7 @@ const InvoiceForm = () => {
 
     return (
         <div>
-            <h1>{id ? "Upravit" : "Vytvořit"} Faktura</h1>
+            <h1>{id ? "Upravit" : "Vytvořit"} fakturu</h1>
             <hr />
             {errorState ? (
                 <div className="alert alert-danger">{errorState}</div>
