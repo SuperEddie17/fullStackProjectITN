@@ -28,8 +28,7 @@ import Country from "./Country";
 import SalesAndPurchasesTable from "../invoices/SalesAndPurchasesTable";
 
 const PersonDetail = () => {
-    const { id } = useParams();
-    const { identificationNumber } = useParams();
+    const { id } = useParams();    
     const [person, setPerson] = useState({});
     const [purchases, setPurchases] = useState({});
     const [sales, setSales] = useState({});
