@@ -16,7 +16,7 @@ public class InvoiceEntity {
     private long id;
 
     @Column(nullable = false)
-    private int invoiceNumber;
+    private Integer invoiceNumber;
 
     @Column(nullable = false)
     private Date issued;
@@ -25,10 +25,10 @@ public class InvoiceEntity {
     private Date dueDate;
 
     @Column(nullable = false)
-    private long price;
+    private Long price;
 
     @Column(nullable = false)
-    private int vat;
+    private Integer vat;
 
     private String product;
 

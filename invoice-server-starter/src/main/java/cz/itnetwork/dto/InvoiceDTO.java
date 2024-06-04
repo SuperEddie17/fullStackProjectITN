@@ -14,9 +14,9 @@ import java.util.Date;
 public class InvoiceDTO {
 
     @JsonProperty("_id")
-    private long id;
+    private Long id;
 
-    private int invoiceNumber;
+    private Integer invoiceNumber;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date issued;
@@ -26,9 +26,9 @@ public class InvoiceDTO {
 
     private String product;
 
-    private long price;
+    private Long price;
 
-    private int vat;
+    private Integer vat;
 
     private String note;
 

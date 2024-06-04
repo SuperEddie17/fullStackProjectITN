@@ -22,7 +22,7 @@ public interface PersonService {
      *
      * @param id id osoby ke smazání
      */
-    void removePerson(long id);
+    void removePerson(Long id);
 
     /**
      * Získá všechny neskryté osoby
@@ -36,7 +36,7 @@ public interface PersonService {
      * @param id id hledané osoby
      * @return objekt nalezené osoby
      */
-    PersonDTO getPersonById(long id);
+    PersonDTO getPersonById(Long id);
 
     /**
      * editace osoby dle ID
@@ -44,7 +44,7 @@ public interface PersonService {
      * @param personDTO editovaný objekt osoby
      * @return upravená osoba
      */
-    PersonDTO editPerson(long id,PersonDTO personDTO);
+    PersonDTO editPerson(Long id,PersonDTO personDTO);
 
     /**
      * vypsání vystavených faktur pro určitou osobu dle IČO
@@ -65,7 +65,7 @@ public interface PersonService {
      * @param id ID hledané osoby
      * @return entita hledané osoby
      */
-    PersonEntity fetchPersonById(long id);
+    PersonEntity fetchPersonById(Long id);
 
 
 

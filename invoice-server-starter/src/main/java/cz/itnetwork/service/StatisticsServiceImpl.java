@@ -24,8 +24,9 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public InvoiceStatisticsDTO getInvoicesStatistics() {
         return invoiceRepository.getInvoicesStatistics();
-    }
 
+
+    }
     /**
      * statistiky pro jednotlivé osoby
      * @return seznam statistiky pro jednotlivé osoby

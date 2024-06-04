@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/invoices")
 public class InvoiceController {
 
     @Autowired
@@ -19,32 +19,32 @@ public class InvoiceController {
 
 
     //Přidá novou fakturu
-    @PostMapping("/invoices")
+    @PostMapping("")
     public  InvoiceDTO addInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         return  invoiceService.addInvoice(invoiceDTO);
     }
 
     //Vypíše všechny faktury i s filtrací
-    @GetMapping("/invoices")
+    @GetMapping("")
     public List<InvoiceDTO> getAllInvoices(InvoiceFilter invoiceFilter){
         return invoiceService.getAllInvoices(invoiceFilter);
     }
 
     //Vypíše určitou fakturu dle jejího ID
-    @GetMapping("/invoices/{invoiceId}")
+    @GetMapping("/{invoiceId}")
     public InvoiceDTO getPerson (@PathVariable long invoiceId){
         return invoiceService.getInvoiceById(invoiceId);
     }
 
     //Smaže fakturu, po smazání hodí status 204 no content
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/invoices/{invoiceId}")
+    @DeleteMapping("/{invoiceId}")
     public void deleteInvoice(@PathVariable long invoiceId) {
          invoiceService.removeInvoice(invoiceId);
     }
 
     //upraví fakturu dle jejího ID
-    @PutMapping({"/invoices/{invoiceId}", "/invoices/{invoiceId}"} )
+    @PutMapping({"/{invoiceId}", "/{invoiceId}"} )
     public InvoiceDTO editInvoice (@PathVariable long invoiceId, @RequestBody InvoiceDTO invoiceDTO) {
         return invoiceService.editInvoice(invoiceId,invoiceDTO);
     }

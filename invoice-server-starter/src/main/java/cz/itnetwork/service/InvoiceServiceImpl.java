@@ -28,8 +28,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     private PersonRepository personRepository;
 
-    @Autowired
-    private PersonService personService;
+
 
     /**
      * funkce pro vytvoření nové faktury
@@ -66,7 +65,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return vrátí fakturu podle zadaného ID nebo null, pokud faktura neexistuje
      */
     @Override
-    public InvoiceDTO getInvoiceById(long invoiceId) {
+    public InvoiceDTO getInvoiceById(Long invoiceId) {
         InvoiceEntity invoiceEntity = fetchInvoiceById(invoiceId);
         return invoiceMapper.toDTO(invoiceEntity);
     }
@@ -75,7 +74,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * funkce pro smazání faktury
      * @param invoiceId ID hledané faktury
      */
-    public  void removeInvoice(long invoiceId) {
+    public  void removeInvoice(Long invoiceId) {
         InvoiceEntity invoice = fetchInvoiceById(invoiceId);//ziskani faktury z databaze
         invoiceRepository.delete(invoice); //smazani faktury z databaze
     }
@@ -86,7 +85,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @param invoiceDTO upravovaná faktura
      * @return vrátí upravenou fakturu
      */
-    public InvoiceDTO editInvoice(long invoiceId, InvoiceDTO invoiceDTO) {
+    public InvoiceDTO editInvoice(Long invoiceId, InvoiceDTO invoiceDTO) {
         //nalezení faktury dle ID
         InvoiceEntity entity = fetchInvoiceById(invoiceId);
         //nastavení ID faktury
@@ -101,7 +100,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @param id ID faktury
      * @return vrátí celý objekt hledané faktury, pokud ne, vypíše hlášku o nenalezení
      */
-    private InvoiceEntity fetchInvoiceById(long id){
+    private InvoiceEntity fetchInvoiceById(Long id){
         return invoiceRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Invoice with id " + id + " wasn't found in the database."));
     }

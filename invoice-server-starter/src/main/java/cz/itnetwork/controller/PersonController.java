@@ -31,39 +31,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/persons")
 public class PersonController {
 
     @Autowired
     private PersonService personService;
 
     //přidaní osoby
-    @PostMapping("/persons")
+    @PostMapping("")
     public PersonDTO addPerson(@RequestBody PersonDTO personDTO) {
         return personService.addPerson(personDTO);
     }
 
     //vyppsání všech osob
-    @GetMapping("/persons")
+    @GetMapping("")
     public List<PersonDTO> getPersons() {
         return personService.getAll();
     }
 
     //smazání osoby, po smazání vypsaní 204 no content statusu
-    @DeleteMapping("/persons/{personId}")
+    @DeleteMapping("/{personId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePerson(@PathVariable long personId) {
         personService.removePerson(personId);
     }
 
     //zobrazení urcřité osoby dle jejího IČ
-    @GetMapping("/persons/{personId}")
+    @GetMapping("/{personId}")
     public PersonDTO getPerson(@PathVariable long personId) {
         return personService.getPersonById(personId);
     }
 
     //upravení osoby dle jejího IČ
-    @PutMapping("/persons/{personId}")
+    @PutMapping("/{personId}")
     public PersonDTO editPerson(@PathVariable long personId,@RequestBody PersonDTO personDTO) {
         return personService.editPerson(personId,personDTO);
     }

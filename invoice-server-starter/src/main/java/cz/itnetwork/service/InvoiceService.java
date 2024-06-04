@@ -28,14 +28,14 @@ public interface InvoiceService {
      * @param id ID hledané faktury
      * @return faktura odpovídající zadanému ID ve formátu DTO, nebo null, pokud faktura není nalezena
      */
-    InvoiceDTO getInvoiceById(long id);
+    InvoiceDTO getInvoiceById(Long id);
 
     /**
      * Odebere fakturu podle zadaného ID.
      *
      * @param invoiceId ID faktury, která má být odebrána
      */
-    void removeInvoice(long invoiceId);
+    void removeInvoice(Long invoiceId);
 
     /**
      * Upraví fakturu podle zadaného ID.
@@ -44,7 +44,7 @@ public interface InvoiceService {
      * @param invoiceDTO objekt reprezentující nový stav faktury
      * @return objekt reprezentující upravenou fakturu
      */
-    InvoiceDTO editInvoice(long invoiceId,InvoiceDTO invoiceDTO);
+    InvoiceDTO editInvoice(Long invoiceId,InvoiceDTO invoiceDTO);
 
 
 

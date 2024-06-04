@@ -46,15 +46,9 @@ const PersonDetail = () => {
             const personStatistics = StatisticData.find((item) => item.personId === parseInt(id));
             setStatistics(personStatistics);
         };
-        fetchPersons();
-        fetchStatistics();
-    }, [id]);
-
-    //get pozadavky na ziskani sales a purchases
-    useEffect(() => {
         async function fetchSales() {
 
-            const salesData = await apiGet("/api/identification/" + person.identificationNumber + "/sales");
+            const salesData = await apiGet("/api/persons/identification/" + person.identificationNumber + "/sales");
             setSales(salesData);
             console.log("SalesData:", salesData);
 
@@ -63,14 +57,20 @@ const PersonDetail = () => {
 
         async function fetchPurchases() {
 
-            const purchasesData = await apiGet("/api/identification/" + person.identificationNumber + "/purchases");
+            const purchasesData = await apiGet("/api/persons/identification/" + person.identificationNumber + "/purchases");
             setPurchases(purchasesData);
             console.log("PurchasesData:", purchasesData);
 
         };
+
+        fetchPersons();
+        fetchStatistics();
         fetchSales();
         fetchPurchases();
-    }, [person]);
+    }, [id, person]);
+
+    //get pozadavky na ziskani sales a purchases
+    
 
     //pokud se nenactou data, vypise se nacitaci zprava
     if (!sales) {

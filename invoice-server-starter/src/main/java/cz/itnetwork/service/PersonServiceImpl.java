@@ -26,7 +26,6 @@ import cz.itnetwork.dto.PersonDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.dto.mapper.PersonMapper;
 import cz.itnetwork.entity.PersonEntity;
-import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,9 +42,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonRepository personRepository;
-
-    @Autowired
-    private InvoiceRepository invoiceRepository;
 
     @Autowired
     private InvoiceMapper invoiceMapper;
@@ -68,7 +64,7 @@ public class PersonServiceImpl implements PersonService {
      * @param personId id osoby ke smazání
      */
     @Override
-    public void removePerson(long personId) {
+    public void removePerson(Long personId) {
         try {
             PersonEntity person = fetchPersonById(personId);
             person.setHidden(true);
@@ -98,7 +94,7 @@ public class PersonServiceImpl implements PersonService {
      * @return vrátí entitu hledané osoby
      */
     @Override
-    public PersonDTO getPersonById(long personId) {
+    public PersonDTO getPersonById(Long personId) {
         PersonEntity personEntity = fetchPersonById(personId);
 
         return personMapper.toDTO(personEntity);
@@ -107,18 +103,23 @@ public class PersonServiceImpl implements PersonService {
     /**
      * editace osoby
      * @param id id editované osoby
-     * @param editedPerson editovaný objekt osoby
+     * @param personDTO editovaný objekt osoby
      * @return vytvoří novou osobu s novým ID, původní osobu skryje
      */
     @Override
-    public PersonDTO editPerson(long id, PersonDTO editedPerson) {
-
-        PersonEntity person = fetchPersonById(id);
-        person.setHidden(true);
+    public PersonDTO editPerson(Long id, PersonDTO personDTO) {
         //skrytí původní osoby
-        personRepository.save(person);
+        PersonEntity personToHide = fetchPersonById(id);
+        personToHide.setHidden(true);
+        personRepository.save(personToHide);
 
-        return addPerson(editedPerson) ;
+        //vytvoreni nove osoby s novym id
+        personDTO.setId(null);
+        PersonEntity editedPerson = personMapper.toEntity(personDTO);
+        personRepository.saveAndFlush(editedPerson);
+
+
+        return personMapper.toDTO(editedPerson) ;
     }
 
     /**
@@ -166,7 +167,7 @@ public class PersonServiceImpl implements PersonService {
      * @return entitu hledané osoby
      */
     @Override
-    public PersonEntity fetchPersonById(long id) {
+    public PersonEntity fetchPersonById(Long id) {
         return personRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Person with id " + id + " wasn't found in the database."));
     }
